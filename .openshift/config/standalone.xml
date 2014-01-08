@@ -137,6 +137,40 @@
 						<allow-multiple-users/>
 					</pool>
 				</datasource>
+				
+				<!-- DayTrader Configs -->
+				<datasource jta="false" jndi-name="java:jboss/datasources/TradeDataSource" pool-name="TradeDS" enabled="true" use-ccm="false">
+          			<connection-url>jdbc:postgresql://${env.OPENSHIFT_POSTGRESQL_DB_HOST}:${env.OPENSHIFT_POSTGRESQL_DB_PORT}/${env.OPENSHIFT_APP_NAME}</connection-url>
+          			<driver>postgresql</driver>
+          			<security>
+            			<user-name>${env.OPENSHIFT_POSTGRESQL_DB_USERNAME}</user-name>
+            			<password>${env.OPENSHIFT_POSTGRESQL_DB_PASSWORD}</password>
+          			</security>
+          			<validation>
+            			<validate-on-match>false</validate-on-match>
+            			<background-validation>false</background-validation>
+          			</validation>
+          			<statement>
+            			<share-prepared-statements>false</share-prepared-statements>
+          			</statement>
+        		</datasource>
+        		<datasource jta="false" jndi-name="java:jboss/datasources/NoTxTradeDataSource" pool-name="NoTxTradeDS" enabled="true" use-ccm="false">
+          			<connection-url>jdbc:postgresql://${env.OPENSHIFT_POSTGRESQL_DB_HOST}:${env.OPENSHIFT_POSTGRESQL_DB_PORT}/${env.OPENSHIFT_APP_NAME}</connection-url>
+          			<driver>postgresql</driver>
+          			<security>
+            			<user-name>${env.OPENSHIFT_POSTGRESQL_DB_USERNAME}</user-name>
+            			<password>${env.OPENSHIFT_POSTGRESQL_DB_PASSWORD}</password>
+          			</security>
+          			<validation>
+            			<validate-on-match>false</validate-on-match>
+            			<background-validation>false</background-validation>
+          			</validation>
+          			<statement>
+            			<share-prepared-statements>false</share-prepared-statements>
+          			</statement>
+        	</datasource>
+				
+				
 				<drivers>
 					<driver name="h2" module="com.h2database.h2">
 						<xa-datasource-class>org.h2.jdbcx.JdbcDataSource
@@ -408,6 +442,19 @@
 						</entries>
 					</pooled-connection-factory>
 				</jms-connection-factories>
+				
+				<!-- DayTrader Configs -->
+				<jms-destinations>
+          			<jms-queue name="TradeBrokerQueue">
+            			<entry name="java:jboss/jms/TradeBrokerQueue"/>
+            			<entry name="java:/jms/TradeBrokerQueue"/>
+          			</jms-queue>
+          			<jms-topic name="TradeStreamerTopic">
+            			<entry name="java:jboss/jms/TradeStreamerTopic"/>
+            			<entry name="java:/jms/TradeStreamerTopic"/>
+          			</jms-topic>
+        		</jms-destinations>
+				
 			</hornetq-server>
 		</subsystem>
 		<subsystem xmlns="urn:jboss:domain:naming:1.2">
