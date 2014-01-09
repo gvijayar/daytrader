@@ -1,3 +1,4 @@
-The OpenShift `jbosseap` cartridge documentation can be found at:
+daytrader
+=========
 
-https://github.com/openshift/origin-server/tree/master/cartridges/openshift-origin-cartridge-jbosseap/README.md
+This is a fork of the Apache DayTrader application and it has been updated to work on JBoss EAP 6 and specifically the OpenShift platform.

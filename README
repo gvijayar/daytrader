@@ -1,0 +1,80 @@
+(C) Copyright 2006,2012 The Apache Software Foundation.
+----------------------------------------------------------------------
+
+The code in this directory contains the code for the benchmark sample called
+Day Trader.  This sample was contributed by IBM to the Apache Geronimo project
+under the ASF license to further functional and performance testing of Geronimo.  
+
+-----------
+|  BUILD  |
+-----------
+To build Daytrader, you need to have JDK 6 and Maven 3.0.3 or later
+installed, which can be found at http://maven.apache.org.
+Once installed you can build Daytrader by executing the following command
+from the dayTrader root directory (the directory containing this README):
+
+  $ mvn clean install
+
+
+-------------
+|  INSTALL  |
+-------------
+1. Install proper JDBC driver jars into Geronimo before deployment. For example, to run daytrader with IBM DB2, 
+   you need to install DB2 JDBC driver via admin console repository portlet, and name it as following:
+    
+    <groupId>com.ibm.db2</groupId>
+    <artifactId>db2jcc</artifactId>
+    <version>8.2</version>
+    <type>jar</type>
+    
+    <groupId>com.ibm.db2</groupId>
+    <artifactId>db2jcc_license_cu</artifactId>
+    <version>8.2</version>
+    <type>jar</type>
+    
+2. Deploy daytrader to the server:
+   a. Via command line, execute these commands from a command prompt:
+         $ cd $GERONIMO_HOME/bin
+         $ deploy.[bat|sh] deploy $DAYTRADER_HOME/javaee6/assemblies/daytrader-ear/target/daytrader-ear-<version>.ear $DAYTRADER_HOME/javaee6/plans/target/classes/<My plan>
+           - where <My plan> is
+               For Apache Derby:  daytrader-derby-xa-plan.xml
+               For IBM DB2:       daytrader-db2-xa-plan.xml
+               For Oracle:        daytrader-oracle-xa-plan.xml
+               For MySQL:         daytrader-mysql-xa-plan.xml
+               For Informix:      daytrader-informix-xa-plan.xml
+               For MS SQL Server: daytrader-informix-xa-plan.xml or daytrader-sqlserver-plan.xml
+               For Postgre:       daytrader-postgre-xa-plan.xml
+
+   b. Via admin console, use the admin console to install the application:
+     - Under Applications -> Deploy new
+     I. Select the EAR file indicated above as your archive.
+     II. Select the XML file indicated above as your plan.
+     III. Ensure the checkbox is selected to "start app after install".
+
+
+---------
+|  RUN  |
+---------
+1. Access the dayTrader application at:
+         http://<hostname>:<port>/daytrader (This is for traditional servlet and jsp)
+         http://<hostname>:<port>/daytrader/index.faces(This is for JSF)
+2. Before you begin using Daytrader, theres are a couple setup steps:
+   - Re-create daytrader tables
+   - Populate the database with a set of fictional users, stocks, prices, etc.
+     by selecting:
+         'Configuration -> (Re)-populate Trade Database'.
+     Note: This may take a minute or two depending on your database server.
+   - After populating the database, the Daytrader Configuration options will
+     appear.  Just accept the defaults.
+3. Now you can begin trading by going to:
+         'Trading & Portfolios'   
+
+---------------
+|  UNINSTALL  |
+---------------
+To uninstall Daytrader, issue the following commands:
+
+1. If you installed Daytrader as an application (EAR) using the deployer:
+      deploy.[bat|sh] undeploy org.apache.geronimo.daytrader/daytrader/<version>/car
+
+
